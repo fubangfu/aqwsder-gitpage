@@ -1,108 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Code</title>
-    <meta name="viewport" content="width=device-width, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, viewport-fit=cover"/>
     <style type="text/css">
-      *,
-      *:before,
-      *:after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+        *,
+        *:before,
+        *:after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      .root {
-        height: 100vh;
-      }
+        .root {
+            height: 100vh;
+        }
 
-      .keys {
-        display: flex;
-        flex-flow: row wrap;
-        align-content: flex-start;
-      }
+        .keys {
+            display: flex;
+            flex-flow: row wrap;
+            align-content: flex-start;
+        }
 
-      .key-code {
-        flex: none;
-        width: 60px;
-        height: 60px;
-        margin: 5px;
-        background: #ffffff;
-        color: #000c17;
-        border: 1px solid #000c17;
-        font-size: 50px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
+        .key-code {
+            flex: none;
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            background: #ffffff;
+            color: #000c17;
+            border: 1px solid #000c17;
+            font-size: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-      .key-config {
-        display: flex;
-        padding: 10px;
-      }
+        .key-config {
+            display: flex;
+            padding: 10px;
+        }
 
-      .key-radio {
-        display: none;
-      }
+        .key-radio {
+            display: none;
+        }
 
-      .key-radio-label {
-        display: inline-flex;
-        width: 60px;
-        height: 60px;
-        font-size: 30px;
-        color: black;
-        border: 1px solid black;
-        align-items: center;
-        justify-content: center;
-        margin: 0 10px;
-      }
+        .key-radio-label {
+            display: inline-flex;
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            color: black;
+            border: 1px solid black;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+        }
 
-      .key-radio:checked + .key-radio-label {
-        color: red;
-        border-color: red;
-      }
+        .key-radio:checked + .key-radio-label {
+            color: red;
+            border-color: red;
+        }
 
-      .key-output {
-        margin: 10px;
-        border: 1px solid black;
-        font-size: 30px;
-        color: red;
-        word-break: break-all;
-        line-height: 40px;
-        min-height: 50px;
-      }
+        .key-output {
+            margin: 10px;
+            border: 1px solid black;
+            font-size: 30px;
+            color: red;
+            word-break: break-all;
+            line-height: 40px;
+            min-height: 50px;
+        }
     </style>
-  </head>
-  <body>
-    <div class="root">
-      <div class="keys">
+</head>
+<body>
+<div class="root">
+    <div class="keys">
         <!-- keys -->
-      </div>
-      <div class="key-config">
-        <input id="radio8" name="length" type="radio" class="key-radio" value="8" />
-        <label for="radio8" class="key-radio-label">8</label>
-        <input id="radio12" name="length" type="radio" class="key-radio" checked value="12" />
-        <label for="radio12" class="key-radio-label">12</label>
-        <input id="radio16" name="length" type="radio" class="key-radio" value="16" />
-        <label for="radio16" class="key-radio-label">16</label>
-        <input id="fix" name="length" type="checkbox" class="key-radio" checked />
-        <label id="fixed" for="fix" class="key-radio-label">fix</label>
-      </div>
-      <div class="key-output"></div>
     </div>
-    <script type="text/javascript">
-      ;(function () {
+    <div class="key-config">
+        <input id="radio8" name="length" type="radio" class="key-radio" value="8"/>
+        <label for="radio8" class="key-radio-label">8</label>
+        <input id="radio12" name="length" type="radio" class="key-radio" checked value="12"/>
+        <label for="radio12" class="key-radio-label">12</label>
+        <input id="radio16" name="length" type="radio" class="key-radio" value="16"/>
+        <label for="radio16" class="key-radio-label">16</label>
+        <input id="fix" name="length" type="checkbox" class="key-radio" checked/>
+        <label id="fixed" for="fix" class="key-radio-label">fix</label>
+    </div>
+    <div class="key-output"></div>
+</div>
+<script type="text/javascript">
+    ;(function () {
         const CLASSNAME_KEYCODE = 'key-code'
         const elKeys = document.querySelector('.keys')
         const elKeyOutput = document.querySelector('.key-output')
         const elConfig = document.querySelector('.key-config')
 
         const parser = createParser(function (value) {
-          elKeyOutput.innerHTML = value
+            elKeyOutput.innerHTML = value
         })
-          .setFixed(true)
-          .setLength(12)
+            .setFixed(true)
+            .setLength(12)
         bindEvents(parser)
         drawKeys()
 
@@ -112,209 +112,202 @@
          * @returns {{input(*): string, setLength(*): this, setFixed(*): this}|*}
          */
         function createParser(output) {
-          const codes = []
-          let max = 12
-          let fixed = true
-          const { xyMapper, codeMapper, getNumber } = createMatrix()
-          return {
-            /**
-             * @param code
-             * @returns {*}
-             */
-            input(code) {
-              codes.push(code)
-              if (codes.length >= 4) {
-                parseCode()
-              }
-              return this
-            },
+            const codes = []
+            let max = 12
+            let fixed = true
+            const { xyMapper, codeMapper, getNumber } = createMatrix()
+            return {
+                /**
+                 * @param code
+                 * @returns {*}
+                 */
+                input(code) {
+                    codes.push(code)
+                    if (codes.length >= 4) {
+                        parseCode()
+                    }
+                    return this
+                },
 
-            /**
-             * @param length
-             * @returns {*}
-             */
-            setLength(length) {
-              max = Number(length) || 8
-              parseCode()
-              return this
-            },
+                /**
+                 * @param length
+                 * @returns {*}
+                 */
+                setLength(length) {
+                    max = Number(length) || 8
+                    parseCode()
+                    return this
+                },
 
-            /**
-             * @param fix
-             * @returns {*}
-             */
-            setFixed(fix) {
-              fixed = fix
-              parseCode()
-              return this
-            }
-          }
-
-          function parseCode() {
-            if (codes.length < 4) {
-              return
-            }
-            let upper = true
-            const result = []
-            const cl = codes.length
-            const rules = createRules()
-            for (let i = 0, rl = rules.length; i < rl; i++) {
-              const rule = rules[i]
-              const ci = i % cl
-              const code = codes[ci]
-              const xy = xyMapper.get(code)
-              const currentCode = getCurrentCode(xy, rule)
-              if ((i + 1) % 4 === 0) {
-                upper = true
-                result.push(currentCode + '  ')
-                console.log(code, ' === ', currentCode)
-              } else if (upper && typeof currentCode !== 'number') {
-                upper = false
-                const upperCode = String(currentCode).toUpperCase()
-                result.push(upperCode)
-                console.log(code, ' === ', upperCode)
-              } else {
-                result.push(currentCode)
-                console.log(code, ' === ', currentCode)
-              }
-            }
-            output(result.join(''))
-          }
-
-          function getCurrentCode(xy, rule) {
-            switch (rule) {
-              case 1:
-                return get1()
-              case 2:
-                return get2()
-              case 3:
-                return get3()
-              default:
-                return get4()
+                /**
+                 * @param fix
+                 * @returns {*}
+                 */
+                setFixed(fix) {
+                    fixed = fix
+                    parseCode()
+                    return this
+                }
             }
 
-            function get4() {
-              const xy1 = [...xy]
-              xy1[0] = xy[0] - 1
-              const code = codeMapper.get(xy1.join('.'))
-              if (code) {
-                return code
-              }
-              return getNumber(xy[0])
+            function parseCode() {
+                if (codes.length < 4) {
+                    return
+                }
+                const result = []
+                const cl = codes.length
+                const rules = createRules()
+                for (let i = 0, rl = rules.length; i < rl; i++) {
+                    const rule = rules[i]
+                    const ci = i % cl
+                    const code = codes[ci]
+                    const xy = xyMapper.get(code)
+                    const currentCode = getCurrentCode(xy, rule)
+                    if ((i + 1) % 4 === 0) {
+                        result.push(currentCode + '  ')
+                        console.log(code, ' === ', currentCode)
+                    } else {
+                        result.push(currentCode)
+                        console.log(code, ' === ', currentCode)
+                    }
+                }
+                output(result.join(''))
             }
 
-            function get3() {
-              const xy1 = [...xy]
-              xy1[1] = xy[1] - 1
-              const code = codeMapper.get(xy1.join('.'))
-              if (code) {
-                return code
-              }
-              return getNumber(xy[0])
+            function getCurrentCode(xy, rule) {
+                switch (rule) {
+                    case 1:
+                        return get1()
+                    case 2:
+                        return get2()
+                    case 3:
+                        return get3()
+                    default:
+                        return get4()
+                }
+
+                function get4() {
+                    const xy1 = [...xy]
+                    xy1[0] = xy[0] - 1
+                    const code = codeMapper.get(xy1.join('.'))
+                    if (code) {
+                        return code
+                    }
+                    return getNumber(xy[0])
+                }
+
+                function get3() {
+                    const xy1 = [...xy]
+                    xy1[1] = xy[1] - 1
+                    const code = codeMapper.get(xy1.join('.'))
+                    if (code) {
+                        return code
+                    }
+                    return getNumber(xy[0])
+                }
+
+                function get2() {
+                    const xy1 = [...xy]
+                    xy1[0] = xy[0] + 1
+                    const code = codeMapper.get(xy1.join('.'))
+                    if (code) {
+                        return code
+                    }
+                    return getNumber(xy[0])
+                }
+
+                function get1() {
+                    const xy1 = [...xy]
+                    xy1[1] = xy[1] + 1
+                    const code = codeMapper.get(xy1.join('.'))
+                    if (code) {
+                        return code
+                    }
+                    return getNumber(xy[0])
+                }
             }
 
-            function get2() {
-              const xy1 = [...xy]
-              xy1[0] = xy[0] + 1
-              const code = codeMapper.get(xy1.join('.'))
-              if (code) {
-                return code
-              }
-              return getNumber(xy[0])
+            function createRules() {
+                const rules = []
+                if (fixed) {
+                    for (let i = 0; i < max; i++) {
+                        rules.push((i % 4) + 1)
+                    }
+                } else {
+                    const cl = codes.length
+                    const number = [1, 2, 3, 4]
+                    for (let i = 0; i < max; i++) {
+                        const ico = codes[i % cl]
+                        const xy = xyMapper.get(ico)
+                        const index = xy[0] % 4
+                        rules.push(number[index])
+                    }
+                }
+                return rules
             }
-
-            function get1() {
-              const xy1 = [...xy]
-              xy1[1] = xy[1] + 1
-              const code = codeMapper.get(xy1.join('.'))
-              if (code) {
-                return code
-              }
-              return getNumber(xy[0])
-            }
-          }
-
-          function createRules() {
-            const rules = []
-            if (fixed) {
-              for (let i = 0; i < max; i++) {
-                rules.push((i % 4) + 1)
-              }
-            } else {
-              const cl = codes.length
-              const number = [1, 2, 3, 4]
-              for (let i = 0; i < max; i++) {
-                const ico = codes[i % cl]
-                const xy = xyMapper.get(ico)
-                const index = xy[0] % 4
-                rules.push(number[index])
-              }
-            }
-            return rules
-          }
         }
 
         function bindEvents(parser) {
-          //
-          elKeys.addEventListener('click', function (event) {
-            if (event.target?.classList.contains(CLASSNAME_KEYCODE)) {
-              const code = event.target.innerText.trim().toLowerCase()
-              parser.input(code)
-            }
-          })
-          //
-          elConfig.addEventListener('click', function (event) {
-            const target = event.target
-            if (target?.type === 'radio') {
-              parser.setLength(target.value)
-            } else if (target?.type === 'checkbox') {
-              parser.setFixed(target.checked)
-            }
-          })
+            //
+            elKeys.addEventListener('click', function (event) {
+                if (event.target?.classList.contains(CLASSNAME_KEYCODE)) {
+                    const code = event.target.innerText.trim().toLowerCase()
+                    parser.input(code)
+                }
+            })
+            //
+            elConfig.addEventListener('click', function (event) {
+                const target = event.target
+                if (target?.type === 'radio') {
+                    parser.setLength(target.value)
+                } else if (target?.type === 'checkbox') {
+                    parser.setFixed(target.checked)
+                }
+            })
         }
 
         /**
          * @returns {{codeMapper: Map<any, any>, getNumber(*): *, xyMapper: Map<any, any>}|*}
          */
         function createMatrix() {
-          const keyCodes = [
-            'zxcvbnm'.split(''),
-            'asdfghjkl'.split(''),
-            'qwertyuiop'.split(''),
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-          ]
-          const xyMapper = new Map()
-          const codeMapper = new Map()
-          for (let y = 0, yl = keyCodes.length; y < yl; y++) {
-            const xArray = keyCodes[y]
-            for (let x = 0, xl = xArray.length; x < xl; x++) {
-              const code = xArray[x]
-              xyMapper.set(String(code), [x, y])
-              codeMapper.set(`${x}.${y}`, code)
+            const keyCodes = [
+                'zxcvbnm'.split(''),
+                'asdfghjkl'.split(''),
+                'qwertyuiop'.split(''),
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+            ]
+            const xyMapper = new Map()
+            const codeMapper = new Map()
+            for (let y = 0, yl = keyCodes.length; y < yl; y++) {
+                const xArray = keyCodes[y]
+                for (let x = 0, xl = xArray.length; x < xl; x++) {
+                    const code = xArray[x]
+                    xyMapper.set(String(code), [x, y])
+                    codeMapper.set(`${x}.${y}`, code)
+                }
             }
-          }
 
-          console.log(xyMapper)
+            console.log(xyMapper)
 
-          return {
-            xyMapper,
-            codeMapper,
-            getNumber(x) {
-              return keyCodes[3][x]
+            return {
+                xyMapper,
+                codeMapper,
+                getNumber(x) {
+                    return keyCodes[3][x]
+                }
             }
-          }
         }
 
         function drawKeys() {
-          const keys = 'QWERTYUIOPASDFGHJKLZXCVBNM1234567890'.split('')
-          for (const key of keys) {
-            const el = document.createElement('div')
-            el.classList.add(CLASSNAME_KEYCODE)
-            el.innerText = key
-            elKeys.appendChild(el)
-          }
+            const keys = 'QWERTYUIOPASDFGHJKLZXCVBNM1234567890'.split('')
+            for (const key of keys) {
+                const el = document.createElement('div')
+                el.classList.add(CLASSNAME_KEYCODE)
+                el.innerText = key
+                elKeys.appendChild(el)
+            }
         }
-      })()
-    </script>
-  </body>
+    })()
+</script>
+</body>
 </html>
